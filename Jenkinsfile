@@ -39,7 +39,7 @@ pipeline {
                 sh "git clean -df"
                 sh "git add ./"
                 sh 'git config --global user.email "tianyuan848192@hotmail.com"'
-                git config --global user.name "tianyuan"
+                sh 'git config --global user.name "tianyuan"'
                 sh "git commit -m 'change tags'"
                 sh "git push origin HEAD:refs/heads/master"
             }

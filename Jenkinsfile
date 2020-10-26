@@ -31,26 +31,23 @@ pipeline {
                 }
             }
         }
-        stage("Git 远程仓库拉取"){
+        stage("pull config repo"){
             git url: "https://github.com/tianyuan848192/config-repo",
                 credentialsId: "GitHubAccess",
                 branch: "master"
         }
-        stage("修改文件"){
+        stage("add tag to file"){
             sh 'sed -i \'s@TAG@\'"${build_tag}"\'@\' workloads/gitops-example-dep.yaml'
         }
-        // 再执行添加新的文件，然后推送到远程 Git 仓库
-        stage("推送到 Git 远程仓库"){
+        stage("push to repo"){
             withCredentials([usernamePassword(credentialsId:"GitHubAccess",
                                               usernameVariable: "GIT_USERNAME", 
                                               passwordVariable: "GIT_PASSWORD")]) {
-                // 配置 Git 工具中仓库认证的用户名、密码
                 sh 'git config --local credential.helper "!p() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; p"'
-                // 配置 git 变量 user.name 和 user.emai
                 sh 'git config --global user.name "tianyuan"'
                 sh 'git config --global user.email "tianyuan848192@hotmail.com"'
                 sh 'git add ./'
-                sh 'git commit -m "进行 git 测试"'
+                sh 'git commit -m "add tag"'
                 sh 'git push -u origin master'
             }
         }

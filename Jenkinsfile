@@ -46,7 +46,7 @@ pipeline {
             }
         }
         stage("push to repo") {
-            step {
+            steps {
                 withCredentials([usernamePassword(credentialsId:"GitHubAccess",
                                                   usernameVariable: "GIT_USERNAME", 
                                                   passwordVariable: "GIT_PASSWORD")]) {

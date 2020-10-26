@@ -38,6 +38,8 @@ pipeline {
                 sh 'sed -i \'s@TAG@\'"${build_tag}"\'@\' workloads/gitops-example-dep.yaml'
                 sh "git clean -df"
                 sh "git add ./"
+                sh 'git config --global user.email "tianyuan848192@hotmail.com"'
+                git config --global user.name "tianyuan"
                 sh "git commit -m 'change tags'"
                 sh "git push origin HEAD:refs/heads/master"
             }

@@ -31,24 +31,32 @@ pipeline {
                 }
             }
         }
-        stage("pull config repo"){
-            git url: "https://github.com/tianyuan848192/config-repo",
-                credentialsId: "GitHubAccess",
-                branch: "master"
+        stage("pull config repo") {
+            steps {
+                echo "clone repo"
+                git url: "https://github.com/tianyuan848192/config-repo",
+                    credentialsId: "GitHubAccess",
+                    branch: "master"                
+            }
         }
-        stage("add tag to file"){
-            sh 'sed -i \'s@TAG@\'"${build_tag}"\'@\' workloads/gitops-example-dep.yaml'
+        stage("add tag to file") {
+            steps {
+                echo "change file"
+                sh 'sed -i \'s@TAG@\'"${build_tag}"\'@\' workloads/gitops-example-dep.yaml'
+            }
         }
-        stage("push to repo"){
-            withCredentials([usernamePassword(credentialsId:"GitHubAccess",
-                                              usernameVariable: "GIT_USERNAME", 
-                                              passwordVariable: "GIT_PASSWORD")]) {
-                sh 'git config --local credential.helper "!p() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; p"'
-                sh 'git config --global user.name "tianyuan"'
-                sh 'git config --global user.email "tianyuan848192@hotmail.com"'
-                sh 'git add ./'
-                sh 'git commit -m "add tag"'
-                sh 'git push -u origin master'
+        stage("push to repo") {
+            step {
+                withCredentials([usernamePassword(credentialsId:"GitHubAccess",
+                                                  usernameVariable: "GIT_USERNAME", 
+                                                  passwordVariable: "GIT_PASSWORD")]) {
+                    sh 'git config --local credential.helper "!p() { echo username=\\$GIT_USERNAME; echo password=\\$GIT_PASSWORD; }; p"'
+                    sh 'git config --global user.name "tianyuan"'
+                    sh 'git config --global user.email "tianyuan848192@hotmail.com"'
+                    sh 'git add ./'
+                    sh 'git commit -m "add tag"'
+                    sh 'git push -u origin master'
+                }
             }
         }
     }

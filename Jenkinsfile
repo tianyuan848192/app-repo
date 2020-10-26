@@ -35,7 +35,7 @@ pipeline {
             steps {
                 echo "4.Clone Repo Stage"
                 git credentialsId: 'GitHubAccess', url: 'https://github.com/tianyuan848192/config-repo'
-                    sh "sed -i 's@TAG@'"${build_tag}"'@' workloads/gitops-example-dep.yaml"
+                    sh "sed -i 's@TAG@"${build_tag}"@'" workloads/gitops-example-dep.yaml"
                     sh "git clean -df"
                     sh "git add ./"
                     sh "git commit -m 'change tags'"

@@ -41,7 +41,7 @@ pipeline {
                 sh 'git config --global user.email "tianyuan848192@hotmail.com"'
                 sh 'git config --global user.name "tianyuan"'
                 sh "git commit -m 'change tags'"
-                sh "git push origin HEAD:refs/heads/master"
+                sh "git push"
             }
         }
     }

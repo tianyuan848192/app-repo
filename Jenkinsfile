@@ -42,7 +42,7 @@ pipeline {
         stage("add tag to file") {
             steps {
                 echo "change file"
-                sh 'sed -i \'s@TAG@\'"${build_tag}"\'@\' workloads/gitops-example-dep.yaml'
+                sh "sed -i \'s@TAG@\'${build_tag}\'@\' workloads/gitops-example-dep.yaml"
                 sh 'cat workloads/gitops-example-dep.yaml'
             }
         }
